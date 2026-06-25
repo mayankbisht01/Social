@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.io Test</title>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h2>Socket.io Notification Test</h2>
+  <p>User ID: <input type="text" id="userId" placeholder="Paste your user ID here" style="width: 300px;"></p>
+  <button onclick="register()">Connect & Register</button>
+  <div id="status">Not connected</div>
+  <h3>Notifications:</h3>
+  <ul id="notifications"></ul>
+
+  <script>
+    const socket = io("http://localhost:3000");
+
+    socket.on("connect", () => {
+      document.getElementById("status").innerText = "Connected! Socket ID: " + socket.id;
+    });
+
+    socket.on("notification", (data) => {
+      console.log("Notification received:", data);
+      const li = document.createElement("li");
+      li.textContent = JSON.stringify(data);
+      document.getElementById("notifications").appendChild(li);
+    });
+
+    function register() {
+      const userId = document.getElementById("userId").value;
+      socket.emit("register", userId);
+      document.getElementById("status").innerText = "Registered as: " + userId;
+    }
+  </script>
+</body>
+</html>

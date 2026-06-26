@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Pass your backend URL variable here. 
+        # (Replace VITE_API_URL with whatever variable name your frontend actually uses)
+        - VITE_API_URL=http://localhost
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

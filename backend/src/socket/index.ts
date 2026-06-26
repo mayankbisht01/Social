@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import type { Server as HttpServer } from "http";
 import logger from "../config/logger";
+import { allowedOrigins } from "../server";
 
 const userSocketMap = new Map<string, string>();
 
@@ -9,7 +10,7 @@ let io: Server;
 export const initSocket = (httpServer: HttpServer): Server => {
     io = new Server(httpServer, {
         cors: {
-            origin: process.env.CLIENT_URL,    // had to correct this later
+            origin: allowedOrigins,    // had to correct this later
             methods: ["GET", "POST"]
         },
     });

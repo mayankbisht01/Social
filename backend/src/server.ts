@@ -30,11 +30,23 @@ const morganStream = {
     write: (message: string) => logger.info(message.trim())
 };
 
+export const allowedOrigins = ["http://localhost:5173", "http://localhost"];
+
 app.use(helmet());
-app.use(cors({ 
-    origin: process.env.CLIENT_URL,
-    credentials: true
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"), false);
+    }
+  },
+  credentials: true
 }));
+
 // app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));

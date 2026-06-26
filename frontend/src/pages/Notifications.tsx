@@ -3,6 +3,7 @@ import api from "../api/axios";
 import { useAuth } from "../context/useAuth";
 import { io } from "socket.io-client";
 import Loading from "../components/Loading";
+import toast from "react-hot-toast";
 
 interface Notification {
     _id: string;
@@ -40,12 +41,15 @@ export default function Notifications() {
         setNotifications((prev) =>
             prev.map((n) => (n._id === id ? { ...n, isRead: true } : n))
         );
+            toast.success("Post is marked as read");
+
     };
 
     const markAllAsRead = async () => {
         try {
             await api.put("/notifications/read-all");
             setNotifications(prev => prev.map(notification => ({ ...notification, isRead: true })));
+            toast.success("All posts are marked as read");
     
         } catch (error) {
             console.log(error);
@@ -85,6 +89,7 @@ export default function Notifications() {
             className="bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded cursor-pointer text-white shadow-2xl">
                 Mark All As Read
             </button>
+            
             {notifications.map((n) => (
                 <div
                     key={n._id}

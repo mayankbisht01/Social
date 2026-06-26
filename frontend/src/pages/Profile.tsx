@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import api from "../api/axios";
 import Loading from "../components/Loading";
 import { useAuth } from "../context/useAuth";
+import toast from "react-hot-toast";
 
 interface User {
     avatar?: string;
@@ -25,15 +26,18 @@ export default function Profile() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [isFollowing, setIsFollowing] = useState(false);
-    const { user } = useAuth();
+    const { user: currentUser } = useAuth();
     const navigate = useNavigate();
+    const [user, setUser] = useState<User | null>(null); //for fol
 
     const handleFollow = async () => {
         try {
             if (isFollowing) {
                 await api.delete(`/users/${id}/unfollow`);
+                toast.success(`You unfollow ${user!.name}`);
             } else {
                 await api.post(`/users/${id}/follow`);
+                toast.success(`You started following ${user!.name}`);
             }
             setIsFollowing(!isFollowing);
 
@@ -41,6 +45,14 @@ export default function Profile() {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        const getUser = async () => {
+            const res  = await api.get(`/users/${id}`);
+            setUser(res.data);
+        };
+        getUser();
+    }, [id])
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -67,6 +79,7 @@ export default function Profile() {
         try {
             await api.delete(`/posts/${postId}`);
             setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+            toast.success("Post deleted")
 
         } catch (error) {
             console.log(error);
@@ -96,7 +109,7 @@ export default function Profile() {
                         className="mt-4 w-fit bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
                         {isFollowing ? "Unfollow" : "Follow"}
                     </button>
-                    {user!.id === id && (
+                    {currentUser!.id === id && (
                         <button onClick={() => navigate("/update-profile")}
                             className="px-4 py-2 rounded mt-2 bg-emerald-500 shadow-sm text-white hover:bg-emerald-600">
                             Edit Profile

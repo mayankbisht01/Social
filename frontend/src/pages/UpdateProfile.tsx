@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth"
 import { useState } from "react";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 export default function UpdateProfile() {
 
@@ -27,6 +28,7 @@ export default function UpdateProfile() {
 
             await api.put("/users/me", formData);
             navigate(`/profile/${user!.id}`);
+            toast.success("Profile updated successfully");
 
 
         } catch {

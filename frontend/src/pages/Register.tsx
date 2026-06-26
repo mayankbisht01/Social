@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 export default function Register() {
 
@@ -20,6 +21,7 @@ export default function Register() {
         try {
             await api.post("/auth/register", { name, email, password });
             navigate("/login");
+            toast.success("Profile created successfully")
 
         } catch (err) {
             console.log(err);

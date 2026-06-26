@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 export default function Login() {
 
@@ -22,6 +23,7 @@ export default function Login() {
             const { data } = await api.post("/auth/login", { email, password });
             login(data.user, data.accessToken);
             navigate("/");
+            toast.success(`Welcome Back! ${data.user.name}`);
 
         } catch (err) {
             console.log(err);

@@ -10,6 +10,7 @@ import PublicRoute from "./components/PublicRoute";
 import { useAuth } from "./context/useAuth";
 import Navbar from "./components/Navbar";
 import UpdateProfile from "./pages/UpdateProfile";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
 
@@ -17,7 +18,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen  bg-mist-100">
-
+       <Toaster />
+       
       <BrowserRouter>
 
         {accessToken && <Navbar />}

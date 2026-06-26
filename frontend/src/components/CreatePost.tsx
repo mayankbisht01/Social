@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 interface Post {
     _id: string;
@@ -40,6 +41,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
             onPostCreated(response.data.post);
             setContent("");
             setImageFile(null);
+            toast.success("Post created");
 
         } catch {
             setError("Failed to create post");

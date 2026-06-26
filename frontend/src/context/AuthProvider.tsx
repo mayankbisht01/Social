@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext, type User } from "./AuthContext";
 import { setAccessToken as syncTokenToAxios } from "../api/axios";
+import toast from "react-hot-toast";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         syncTokenToAxios(token);
         localStorage.setItem("accessToken", token);
         localStorage.setItem("user", JSON.stringify(userData));
+
     }
 
     const logout = () => {
@@ -32,6 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         syncTokenToAxios(null);
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user");
+        toast.success("Logout successfull")
     };
 
     useEffect(() => {

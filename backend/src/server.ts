@@ -20,11 +20,11 @@ import "./config/redis";
 const app = express();
 const httpServer = http.createServer(app);
 
-// const limiter = rateLimit({
-//     windowMs: 15 * 60 * 1000,
-//     max: 100,
-//     message: { message: "Too many requests, please try again later" }
-// });
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { message: "Too many requests, please try again later" }
+});
 
 const morganStream = {
     write: (message: string) => logger.info(message.trim())
@@ -47,7 +47,7 @@ app.use(cors({
   credentials: true
 }));
 
-// app.use(limiter);
+app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 app.use(cookieParser());

@@ -51,20 +51,20 @@ export default function UpdateProfile() {
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-4 space-y-4">
-            <h1 className="text-xl font-bold">Update Profile</h1>
+            <h1 className="text-xl font-bold dark: text-white">Update Profile</h1>
 
             <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
-                className="w-full border rounded p-2 shadow-md" />
+                className="w-full border rounded p-2 shadow-md dark:text-white dark:border-white" />
 
             <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Bio"
-                className="w-full border rounded p-2 resize-none shadow-md"
+                className="w-full border rounded p-2 resize-none shadow-md  dark:text-white dark:border-white"
                 rows={3}
             />
 
@@ -72,7 +72,7 @@ export default function UpdateProfile() {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setAvatar(e.target.files?.[0] || null)}
-                className="border rounded p-1 w-55 cursor-pointer shadow-md"
+                className="border rounded p-1 w-55 cursor-pointer shadow-md dark:text-white dark:border-white"
             />
 
             {error && <p className="text-red-500 text-sm">{error}</p>}

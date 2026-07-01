@@ -110,6 +110,7 @@ export const getUserProfile = async (req: AuthRequest, res: Response) => {
 
         res.status(200).json({
             name: user.name,
+            username: user.username,
             email: user.email,
             bio: user.bio,
             avatar: user.avatar,
@@ -181,5 +182,25 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
 
     } catch (error) {
         res.status(500).json({ message: "Internal server error" })
+    }
+}
+
+export const searchUsers = async (req: AuthRequest, res: Response) => {
+    try {
+        const query = req.query.q as string;
+
+        if (!query || !query.trim()) {
+            res.status(400).json({ message: "Search query is required"});
+            return;
+        }
+
+        const users = await User.find({
+            username: { $regex: query, $options: "i"}
+        }).select("name username avatar").limit(10);
+
+        res.status(200).json({ users });
+        
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }

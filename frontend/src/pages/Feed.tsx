@@ -60,11 +60,11 @@ export default function Feed() {
     if (loading) return <Loading />
 
     return (
-        <div className="mt-10 max-w-xl mx-auto p-2 space-y-4 shadow-2xl bg-mauve-50">
+        <div className="mt-10 max-w-xl mx-auto p-2 space-y-4 shadow-2xl rounded-md bg-stone-100">
             <CreatePost onPostCreated={handlePostCreated} />
             {posts.map((post) => (
                 <div key={post._id} className="border rounded p-4">
-                    <p className="font-bold">{post.author.name}   ·   <span className="text-gray-600 text-sm/6 font-mediump">{timeAgo(post.createdAt)}</span></p>
+                    <p className="font-bold">{post.author.name} · <span className="text-gray-600 text-sm/6 font-mediump">{timeAgo(post.createdAt)}</span></p>
                     <p>{post.content}</p>
                     {post.image && <img src={post.image} className="mt-2 rounded" />}
                     <button onClick={(() => handleLike(post._id, post.likes.includes(user!.id)))}>

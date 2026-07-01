@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 export default function Register() {
 
     const [name, setName] = useState("");
+    const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -19,7 +20,7 @@ export default function Register() {
         setLoading(true);
 
         try {
-            await api.post("/auth/register", { name, email, password });
+            await api.post("/auth/register", { name,username, email, password });
             navigate("/login");
             toast.success("Profile created successfully")
 
@@ -45,6 +46,18 @@ export default function Register() {
                     required
                     disabled={loading}
                 />
+
+                <input
+                    className="border border-white rounded p-2 w-67 dark:text-white"
+                    type="text"
+                    autoComplete="current-username"
+                    value={username}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder="username"
+                    required
+                    disabled={loading}
+                />
+
                 <input
                     className="border border-white rounded p-2 w-67 dark:text-white"
                     type="email"

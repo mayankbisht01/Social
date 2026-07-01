@@ -9,7 +9,7 @@ import redis from "../config/redis";
 
 export const register = async (req: Request, res: Response) => {
     try {
-        const { name, email, password } = req.body;
+        const { name,username,  email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -21,6 +21,7 @@ export const register = async (req: Request, res: Response) => {
 
         const user = await User.create({
             name,
+            username,
             email,
             password: hashedPassword
         });

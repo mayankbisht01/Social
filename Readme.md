@@ -30,6 +30,11 @@ Create the required `.env` files for both the frontend and backend. Refer to the
 docker compose up --build
 ```
 
+### OR
+
+-  cd backend -> npm install -> npm run dev
+-  cd frontend -> npm install -> npm run dev
+
 ### 4. Open the application
 
 Visit:
